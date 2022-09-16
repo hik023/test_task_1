@@ -1,0 +1,52 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container py-5 ">
+        <h4>{{course.name}}</h4>
+        <br>
+        <p>{{course.description | safe}}</p>
+        </br>
+        {% for sec in course.sections %}
+            <a href="#{{sec.id}}" class="btn btn-outline-secondary">{{sec.name}}</a>
+        {% endfor %}
+        <br>
+        <hr>
+        <br>
+        {% for sess in course_sessions %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{sess.course.thumb_url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">{{sess.course.name}}</h5>
+                <p class="card-text">{{sess.course.description | safe | slice:':100'}}...</p>
+                <a href="{% url 'client:session_register' session_id=sess.id %}" class="btn btn-success">Записаться</a>
+                {% block session_response %}
+                {% endblock %}
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+        <hr>
+        <br>
+        {% for sec in course.sections %}
+            <p id="{{sec.id}}" ><h3>{{sec.name}}</h3></p>
+            <ul>
+            {% for mat in sec.materials %}
+                <p>
+                    {% if mat.description %}
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle"  type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{mat.name}}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-light">
+                                <li>{{mat.description | safe }}</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p>{{mat.name}}</p>
+                    {% endif%}
+                </p>
+            {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

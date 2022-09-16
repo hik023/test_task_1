@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="container py-5 ">
+    {% if response.errors %}
+        <p>Ошибка!</p>
+        {% for er in response.errors%}
+            <p>{{er}}</p>
+        {% endfor %}
+    {% else %}
+        <p>Вы успешно зарегестрировались!</p>
+    {% endif %}
+</div>
+{% endblock %}
